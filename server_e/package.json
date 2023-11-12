@@ -1,0 +1,19 @@
+{
+  "name": "server_e",
+  "version": "1.0.50",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "bun run --watch src/index.ts"
+  },
+  "dependencies": {
+    "@bogeychan/elysia-logger": "^0.0.13",
+    "@elysiajs/cors": "^0.7.1",
+    "elysia": "latest",
+    "morgan": "^1.10.0"
+  },
+  "devDependencies": {
+    "@types/morgan": "^1.9.9",
+    "bun-types": "latest"
+  },
+  "module": "src/index.js"
+}
