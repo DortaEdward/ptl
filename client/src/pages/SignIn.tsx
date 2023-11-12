@@ -43,7 +43,7 @@ const SignIn = () => {
 		if(password.length < 8 || password.length > 32){
 			setError("Password must be between 8-32 long")
 		}
-		
+		console.log(symbolRegex)	
 	}
 
 	return(
