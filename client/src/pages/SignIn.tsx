@@ -1,6 +1,7 @@
 import { Link } from "react-router-dom"
 import { useState } from "react"
-
+import { AiOutlineArrowRight } from "react-icons/ai"
+import bg from '../assets/bg.jpg'
 const SignIn = () => {
 
 	const [username, setUsername] = useState<string>("")
@@ -48,41 +49,43 @@ const SignIn = () => {
 
 	return(
 		<div className="relative min-w-screen min-h-screen bg-slate-800 flex items-center justify-center">
-			<div className="absolute top-8 left-8 border-2 px-2 py-1 rounded text-white font-medium">
-				<Link to={"/"}>
-					{"<- Back"}
-				</Link>
-			</div>
-			<div className="shadow-2xl w-96 h-96 p-8 rounded relative flex flex-col justify-center bg-slate-700">
-				<h1 className="text-4xl text-white mb-8">Sign In</h1>
-				{
-					error && <p className="bg-red-800 text-white px-2 py-1 text-center absolute -top-10 w-[318px] rounded font-medium">{error}</p>
-				}
-				<form className="flex flex-col gap-4" onSubmit={handleSubmit}>
-					<fieldset className="flex flex-col gap-1">
-						<label htmlFor="username" className="text-white text-2xl">Username</label>
-						<input
-							placeholder="Username" 
-							type="text" required 
-							className="px-2 py-1 outline-none rounded"
-							value={username}
-							onChange={(e:React.FormEvent<HTMLInputElement>)=> setUsername(e.currentTarget.value)}
-						/>
-					</fieldset>
-					<fieldset className="flex flex-col gap-1">
-						<label htmlFor="password" className="text-white text-2xl">Password</label>
-						<input
-							placeholder="Password"
-							className="px-2 py-1 outline-none rounded"
-							type="password" required
-							value={password}
-							onChange={(e:React.FormEvent<HTMLInputElement>)=> setPassword(e.currentTarget.value)}
-						/>
-					</fieldset>
-					<button className="bg-red-500 w-28 py-1 rounded font-medium text-white mx-auto">Sign In</button>
-				</form>
-			</div>
-			
+			<div className="w-[1280px] overflow-hidden h-[768px] bg-slate-500 rounded-md flex">
+				<div className="w-1/3 h-full bg-gray-100 flex flex-col items-center justify-center relative">
+					<div><p className="text-3xl font-extrabold absolute top-10 left-14">Logo</p></div>
+					<div className="flex flex-col gap-10">
+						<p className="text-2xl font-bold tracking-wide">Sign in with your account</p>
+						<form className="flex flex-col gap-4">
+							<div className="flex flex-col gap-4">
+							<fieldset className="relative w-72 border rounded-md">
+								<p className="text-xs font-medium absolute top-[0.3rem] left-1">Email</p>
+								<input className="px-1 pt-4 pb-2 outline-black w-full" placeholder="Email" type="email" />
+							</fieldset>
+							<fieldset className="relative w-72 border rounded-md">
+								<p className="text-xs font-medium absolute top-[0.3rem] left-1">Password</p>
+								<input className="px-1 pt-4 pb-2 outline-black w-full" placeholder="Password" type="password" />
+							</fieldset>
+							</div>
+							<div className="flex gap-1 items-center">
+								<input type="checkbox" className="accent-red-500" />
+								<p>Remember Me</p>
+							</div>
+							<div className="my-1"></div>
+							<button
+								type="submit" 
+								className="h-12 w-12 bg-red-500 text-2xl font-medium rounded-lg mx-auto flex items-center justify-center">
+									<AiOutlineArrowRight className="" />
+							</button>
+						</form>
+						<div className="flex flex-col gap-2 absolute bottom-12">
+							<p className="text-xs font-bold text-gray-500">CREATE A ACCOUNT</p>
+							<p className="text-xs font-bold text-gray-500">CAN'T SIGN IN?</p>
+						</div>
+					</div>
+				</div>	
+				<div className="w-2/3 h-full bg-red-200">
+					<img src={bg} className="w-full h-full object-cover" />	
+				</div>	
+			</div>		
 		</div>
 	)
 }
