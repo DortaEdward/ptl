@@ -1,7 +1,9 @@
 import { Router, type Request, type Response } from "express";
 import UserModel from "../models/user";
 import { z } from "zod"
-import { createUser } from "../services/user";
+import { createUser, validatePassword } from "../services/user";
+import { createSession } from "../services/session";
+import { createToken } from "../utils/jwt";
 
 const authRouter = Router()
 
@@ -24,7 +26,10 @@ authRouter.post("/signup", async (req: Request, res: Response) => {
         if(!isValid){
             return res.status(500)
         }
-
+        const userExist = await UserModel.findOne({email:req.body.user})
+        if(userExist != null){
+            return res.status(401).send("Invalid") 
+        }
         const user = await createUser(req.body) 
         return res.status(200).json({
             id: user.id,
@@ -37,11 +42,52 @@ authRouter.post("/signup", async (req: Request, res: Response) => {
     }
 })
 
-authRouter.post("/signup", async (req: Request, res: Response) => {  
+authRouter.post("/signin", async (req: Request, res: Response) => {  
     // validate user
-    // create session
-    // create access token
-    // create refresh token
+    const bodyValidator = z.object({
+        email: z.string(),
+        password: z.string()
+    })
+    const isBodyValid = bodyValidator.parse(req.body);
+    if(!isBodyValid){
+        res.status(500).send("Unauthorized")
+    }
+    try{
+        const user = await UserModel.findOne({
+            email: req.body.email
+        })
+
+        if(!user){            
+            console.log("no user")
+            return res.status(500).send("Unauthorized")
+        }
+
+        const isPasswordValid = validatePassword(req.body.password,user.password);
+        if(!isPasswordValid){            
+            return res.status(500).send("Unauthorized")
+        }
+        
+        const session = await createSession(user._id, req.get("user-agent") || "")
+
+        const accessToken = await createToken(
+            user._id, user.username,
+            session._id, "accessToken",
+            "", null
+        )
+
+        const refreshToken = await createToken(
+            user._id, user.username,
+            session._id, "refreshToken",
+            "", null
+        )
+            
+        res.json({ accessToken, refreshToken });
+
+    } catch(err: any){
+        console.log(err.message)
+        return res.status(500).send("Unauthorized")
+    }
+    
 })
 
 

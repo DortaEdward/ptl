@@ -19,7 +19,8 @@ export async function createUser(payload: CreateUserPayload){
 }
 // validate password
 export async function validatePassword(password: string, hash: string){
-    return Bun.password.verifySync(password, hash, "bcrypt")
+    const result = await Bun.password.verify(password, hash, "bcrypt")
+    return result
 }
 
 
