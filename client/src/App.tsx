@@ -5,17 +5,12 @@ import {
   //Route,
   //Link,
 } from "react-router-dom";
-import Home from "./pages/home";
-import SignIn from "./pages/SignIn";
+import Home from "./pages/Home";
 
 const router = createBrowserRouter([
   {
     path: "/",
     element: (<Home />),
-  },
-  {
-    path: "signin",
-    element: <SignIn />,
   },
 ]);
 

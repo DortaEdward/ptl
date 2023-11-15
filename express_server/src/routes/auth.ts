@@ -2,8 +2,8 @@ import { Router, type Request, type Response } from "express";
 import UserModel from "../models/user";
 import { z } from "zod"
 import { createUser, validatePassword } from "../services/user";
-import { createSession } from "../services/session";
-import { createToken } from "../utils/jwt";
+import { createSession, reIssueAccessToken } from "../services/session";
+import { createToken, verifyJwt } from "../utils/jwt";
 
 const authRouter = Router()
 
@@ -35,8 +35,7 @@ authRouter.post("/signup", async (req: Request, res: Response) => {
             id: user.id,
             email: user.email,
             username: user.username
-        })
-
+        });
     } catch(err: any){
         res.status(500)
     }
@@ -70,18 +69,15 @@ authRouter.post("/signin", async (req: Request, res: Response) => {
 
         const accessToken = await createToken(
             user._id, user.username,
-            session._id, "accessToken",
-            "", null
+            session._id, "accessToken"
         )
 
         const refreshToken = await createToken(
             user._id, user.username,
             session._id, "refreshToken",
-            "", null
         )
-            
+        
         res.json({ accessToken, refreshToken });
-
     } catch(err: any){
         console.log(err.message)
         return res.status(500).send("Unauthorized")
