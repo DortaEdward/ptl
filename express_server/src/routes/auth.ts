@@ -58,7 +58,6 @@ authRouter.post("/signin", async (req: Request, res: Response) => {
         })
 
         if(!user){            
-            console.log("no user")
             return res.status(500).send("Unauthorized")
         }
 
