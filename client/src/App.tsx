@@ -6,11 +6,16 @@ import {
   //Link,
 } from "react-router-dom";
 import Home from "./pages/Home";
+import Marketing from "./pages/Marketing";
 
 const router = createBrowserRouter([
   {
     path: "/",
     element: (<Home />),
+  },
+  {
+    path: "/marketing",
+    element: (<Marketing />),
   },
 ]);
 

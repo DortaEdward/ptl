@@ -1,7 +1,20 @@
 import Header from "../components/Header.tsx"
 import { Link } from "react-router-dom";
+import { useState, useEffect } from "react"
 
-function Home(){
+function Marketing(){
+    const [socket, setSocket] = useState()
+
+    useEffect(()=>{
+        const newSocket = new WebSocket('ws://localhost:6969'); // Change the URL to your WebSocket server
+        setSocket(newSocket);
+
+        return () => {
+            newSocket.close();
+        };
+    
+    },[])
+
 	return(
 		<div className="min-h-screen bg-slate-800 relative">
 			<Header />
@@ -18,4 +31,4 @@ function Home(){
 	)
 }
 
-export default Home;
+export default Marketing;
